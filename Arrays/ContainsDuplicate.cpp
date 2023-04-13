@@ -23,3 +23,5 @@ public:
         return false;
     }
 };
+
+// could also be solved by sorting, but this would be O(nlogn)
