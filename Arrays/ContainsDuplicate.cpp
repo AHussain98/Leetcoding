@@ -25,3 +25,26 @@ public:
 };
 
 // could also be solved by sorting, but this would be O(nlogn)
+
+
+// runs faster if you do both steps at once
+
+#include <unordered_map>
+#include <vector>
+
+class Solution {
+public:
+    bool containsDuplicate(vector<int>& nums) {
+        std::unordered_map<int,int> map;
+
+        for(int i = 0; i < nums.size(); ++i){
+            map[nums[i]]++;
+
+            if (map[nums[i]] > 1){
+                return true;
+            }
+        }
+
+        return false;
+    }
+};
