@@ -1,0 +1,28 @@
+You are given a large integer represented as an integer array digits, where each digits[i] is the ith digit of the integer. The digits are ordered from most significant to least significant in left-to-right order. The large integer does not contain any leading 0's.
+
+Increment the large integer by one and return the resulting array of digits.
+
+class Solution {
+public:
+    vector<int> plusOne(vector<int>& digits) {
+    // first we need the index at the end, this is what we're incrementing
+    int end = digits.size() -1;
+
+    for(int i = end; i >= 0; --i){  // start at the end and work backwards
+        if(digits[i] == 9){
+          digits[i] = 0; // set the value where 9 is to zero
+        }
+        else{  // so if the digit is not 9, we just increment and return
+            digits[i] += 1;
+            return digits;  // so as soon as a non 9 digit is encountered, we just add 1 and return what we've got
+        }
+        // the only exception to the above loop working is when we have an array of all 9's
+    
+    }
+// so if we have an array of all 9's we just have to change all 9's to zeros (done already in the above loop) and then add a 0 onto the end, then change the first element to a 1
+digits.push_back(0);
+digits[0] = 1;
+return digits;
+    } 
+    
+};
