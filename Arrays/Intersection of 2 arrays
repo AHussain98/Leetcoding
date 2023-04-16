@@ -1,0 +1,29 @@
+Given two integer arrays nums1 and nums2, return an array of their intersection. 
+Each element in the result must appear as many times as it shows in both arrays and you may return the result in any order.
+
+
+#include <unordered_map>
+#include <vector>
+
+class Solution {
+public:
+    vector<int> intersect(vector<int>& nums1, vector<int>& nums2) {
+
+        // can solve this with a map for O(n) time complexity or by sorting and using two pointers, which is nlogn complexity but constant space
+        std::vector<int> result; // create this to store the result 
+
+        std::unordered_map<int,int> map;
+        for (int i = 0; i < nums1.size(); ++i){
+            map[nums1[i]] += 1; // increase the amount of values stored in the map, key is the array element and value is the amount
+        }
+        
+        for(int i = 0; i < nums2.size(); ++i){
+            if(map.find(nums2[i]) != map.end() && map[nums2[i]] > 0){
+                result.push_back(nums2[i]);  //because we havent defined a size, we can just push back
+                map[nums2[i]]--;  // decrement the counter, as we don't want to double count
+            
+            }
+        }
+      return result;
+    }
+};
