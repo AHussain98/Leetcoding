@@ -12,7 +12,7 @@ public:
       // if we're replacing elements in an array, we can use a two pointer approach, especially as this array is sorted
       // one pointer for running through each element in the array
       // another pointer for tracking the spots where we need a replacement
-int n = nums.size();
+int n = nums.size();  // store the size in a variable so that we don't run this function for every loop
       int b = 0;
       for(int a = 1; a < n; a++){  //so for every element in the array
           if(nums[a] != nums[b]){
