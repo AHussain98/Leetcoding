@@ -12,18 +12,16 @@ public:
       // if we're replacing elements in an array, we can use a two pointer approach, especially as this array is sorted
       // one pointer for running through each element in the array
       // another pointer for tracking the spots where we need a replacement
-
-int count = 0;
+int n = nums.size();
       int b = 0;
-      for(int a = 1; a < nums.size()+1; a++){  //size + 1 becuase otherwise we miss out the last element
-          if(nums[a]==nums[b]){
-              continue; // a moves along
-          }
-          else{
+      for(int a = 1; a < n; a++){  //so for every element in the array
+          if(nums[a] != nums[b]){
               b++; //move b along
               nums[b] = nums[a];
-              count++;
           }
       }
 
-      return count;
+      return b+1;  // b is zero indexed so the number of unique elements is wherever b ends up plus 1 
+
+    }
+};
