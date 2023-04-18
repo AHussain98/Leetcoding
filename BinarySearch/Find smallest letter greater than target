@@ -1,0 +1,18 @@
+You are given an array of characters letters that is sorted in non-decreasing order, and a character target. There are at least two different characters in letters.
+
+Return the smallest character in letters that is lexicographically greater than target. If such a character does not exist, return the first character in letters.
+
+class Solution {
+public:
+    char nextGreatestLetter(vector<char>& letters, char target) {
+        if (letters.back() <= target) return letters.front();
+        int low = 0, high = letters.size() - 1;
+        while (low <= high) {  // we're not looking to return anything within the loop, we want to get as low as we can into the array
+            auto mid = (low + high) / 2;
+            if (target < letters[mid]){ high = mid -1;}
+
+            else low = mid + 1;
+        }
+        return letters[low]; // as soon as low passed high, we return low
+    }
+};
