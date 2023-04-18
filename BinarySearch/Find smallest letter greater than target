@@ -5,14 +5,21 @@ Return the smallest character in letters that is lexicographically greater than 
 class Solution {
 public:
     char nextGreatestLetter(vector<char>& letters, char target) {
-        if (letters.back() <= target) return letters.front();
-        int low = 0, high = letters.size() - 1;
-        while (low <= high) {  // we're not looking to return anything within the loop, we want to get as low as we can into the array
-            auto mid = (low + high) / 2;
-            if (target < letters[mid]){ high = mid -1;}
+     // firstly, if the largest element is smaller or the same as the target, then we can just return the first
+     if(letters.back() <= target){ return letters.front();}
 
-            else low = mid + 1;
-        }
-        return letters[low]; // as soon as low passed high, we return low
+     int low = 0;
+     int high = letters.size() -1;
+
+     while (low <= high){  // with these types of loops, we don't need to return anything within the loop, we just need to find teh index where the element would go and return the element low is pointer to at the point it becomes greater than high
+         int mid = (high + low)/2;
+
+         if(letters[mid] > target){
+             high = mid - 1;
+         }
+         else{ low = mid + 1;}  // put low at the bottom, because we need low to exceed high for the smallest element greater than target, low and high must be equal and we need low to be the last one to move
+     }
+     return letters[low];
+
     }
 };
