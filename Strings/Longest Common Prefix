@@ -1,0 +1,25 @@
+Write a function to find the longest common prefix string amongst an array of strings.
+
+If there is no common prefix, return an empty string "".
+
+class Solution {
+public:
+// we're looking for the longest common prefix
+// a prefix is a sequence of chars at the start of a string, not the same as a substring
+
+// Since is sorted, if you have 'fl' in the first string, having 'fl' in the last string means that all the in-between strings also have 'fl'. So you pretty much can only compare these two and ignore the rest.
+
+    string longestCommonPrefix(vector<string>& str) {
+        string res="";
+        sort(str.begin(),str.end()); // sorting on an array of strings means sort them in ascending alphabetical order, not by size
+        string a=str[0]; // lowest lexiconagraphical string
+        string b=str[str.size()-1]; // highest, we want to compare these two
+        for(int i=0;i<str[0].size();i++){
+            if(a[i]==b[i])
+                res+=a[i];
+            else
+                break;
+        }
+        return res;
+    }
+};
