@@ -1,0 +1,31 @@
+Given a string s which consists of lowercase or uppercase letters, return the length of the longest palindrome that can be built with those letters.
+
+Letters are case sensitive, for example, "Aa" is not considered a palindrome here.
+
+
+class Solution {
+public:
+    int longestPalindrome(string s) {
+        // create a variable that stores the count of chars that appear an odd amount of times
+        // if a char appears an odd amount of times, it cannot be in the pallindrome an odd number of times
+        // if a char appears only once, it can be in the pallindrome
+        // lets store the count of all elements into a hashmap
+        // then we can run through and count the number of odd occurances
+        // remove this count from the length of the list, then add 1 for the single odd number we can have but only if there is a char that appears an odd amount of times
+        int odd_count = 0;
+        std::unordered_map<char,int> map;
+        for (int i = 0; i < s.length(); ++i){
+            map[s[i]]++;
+            if(map[s[i]] % 2 == 1){
+             odd_count++;
+            }
+            else{odd_count--;}
+        }
+    
+      if(odd_count > 0){  return s.length() -odd_count + 1;}
+      else{return s.length();}
+    
+    
+    
+    }
+};
