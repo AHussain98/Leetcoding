@@ -1,0 +1,15 @@
+You are given two strings s1 and s2 of equal length. A string swap is an operation where you choose two indices in a string (not necessarily different) and swap the characters at these indices.
+
+Return true if it is possible to make both strings equal by performing at most one string swap on exactly one of the strings. Otherwise, return false.
+
+class Solution {
+public:
+    bool areAlmostEqual(string s1, string s2) {
+        if(s1==s2) return true;
+        int s=0,e=s1.size()-1;
+        while(s1[s]==s2[s]) s++;
+        while(s1[e]==s2[e]) e--;
+        swap(s1[s],s1[e]);
+        return s1==s2;
+    }
+};
