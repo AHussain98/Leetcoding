@@ -1,0 +1,16 @@
+Given an integer n, return true if it is a power of three. Otherwise, return false.
+
+An integer n is a power of three, if there exists an integer x such that n == 3x.
+
+class Solution {
+public:
+    bool isPowerOfThree(int n) {
+        if(n==0){  // if zero then just return false
+            return false;
+        }
+        while(n%3 == 0){ // while there's nothing left over fromm the modulus of 3
+            n /= 3;  // divide n by 3
+        }
+        return n==1;  // is n becomes 1, then we know its a power
+    }
+};
