@@ -1,0 +1,43 @@
+Given a string s, return true if the s can be palindrome after deleting at most one character from it.
+
+
+
+class Solution {
+public:
+
+    bool second_chance(string &s, int l, int r){
+        while(l < r){
+            if(s[l] == s[r]){
+                l++;
+                r--;
+            }
+            else{
+                return false;
+            }
+        }
+        return true;
+    }
+
+    bool validPalindrome(string s) {
+        // something can be a pallindrome if these is at most 1 character that appears an odd number of times
+        // I believe a two pointer approach
+        // start from both ends, if the chars are the same, move the left pointer along and the right pointer down
+        // if they're different, remove the offending variable and then rerun, but they only get one chance
+        // clean to use two functions, once for the normal runthrough and another that kicks off once we've got our first discrepancy
+        int l = 0;
+        int r = s.length()-1;
+        
+        while(l < r){
+            if(s[l] == s[r]){
+                l++;
+                r--;
+
+            }
+            else{
+                return { second_chance(s,l+1,r) || second_chance(s,l,r-1)}; // because the pallindrome can still be valid in either direction, we only need one
+            }
+            
+        }
+        return true;
+    }
+};
