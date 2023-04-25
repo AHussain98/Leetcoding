@@ -1,0 +1,36 @@
+Given an integer array nums sorted in non-decreasing order, return an array of the squares of each number sorted in non-decreasing order.
+
+
+
+class Solution {
+public:
+    vector<int> sortedSquares(vector<int>& nums) {
+        // you could just square every element and then sort the array
+        // this is o(nlogn) time and o(1) space
+        // however, since the array is already sorted, we can make the most of this and apply a two pointer approach
+        // this would be o(n) time but would require o(n) space as we'd have to use another vector to store the result
+
+        int l =0; int r = nums.size() -1;
+        std::vector<int> result(nums.size());
+        for(int i = nums.size()-1; i >= 0; --i){
+       
+
+        if(abs(nums[l]) < abs(nums[r])){
+            result[i] = pow(nums[r],2);
+            r--;
+        }
+        else if(abs(nums[l]) > abs(nums[r]) ){
+             result[i] = pow(nums[l],2);
+             l++;
+        }
+        else if(abs(nums[l]) == abs(nums[r]) ){
+            result[i] = (pow(nums[l],2) ); 
+            r--;
+            
+        }
+
+        }
+
+        return result;
+    }
+};
