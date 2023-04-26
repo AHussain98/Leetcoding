@@ -1,0 +1,37 @@
+class Solution {
+public:
+    int numUniqueEmails(vector<string>& emails) {
+
+     std::unordered_set<std::string> result; // set to store the results
+
+     for(int i = 0; i < emails.size(); ++i){
+     int n = emails[i].size() -1; // going to use this to store the end o
+    int j = 0;
+     std::string cleanString;  // use this to store the results (if acceptable)
+     
+     for(; j < emails[i].size(); ++j ){
+      if(emails[i][j] == '+' || emails[i][j] == '@'){ // notice that these do the same thing
+      break;}
+      if(emails[i][j] == '.'){
+       continue;
+      }
+      cleanString += emails[i][j]; //if we get to this point, then we add the char into our clean string 
+
+     }   
+    
+
+    // when we get to this point, we've got the string upto the @
+
+    cleanString += emails[i].substr(emails[i].find('@'));
+
+    // so now we can just add string into a set, this also checks if the final clean string is unique
+
+result.insert(cleanString);
+
+ }
+
+    //now after the loop, we just return the size of the array
+
+    return result.size();
+    }
+};
