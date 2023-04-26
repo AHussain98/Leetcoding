@@ -1,0 +1,35 @@
+Given two strings s and t, return true if s is a subsequence of t, or false otherwise.
+
+A subsequence of a string is a new string that is formed from the original string by deleting some (can be none) of the characters without disturbing the relative positions of the remaining characters. (i.e., "ace" is a subsequence of "abcde" while "aec" is not).
+
+
+class Solution {
+public:
+    bool isSubsequence(string s, string t) {
+      // run through the array, using two pointers
+      // one pointed to the front of the largest array, another to the front of the second
+      // its a subsequence, so they must follow in order
+
+      int n = t.size();
+      int x = s.size();
+
+      if( x == 1 && n == 1 && s[0] != t[0]){
+        return false;
+      }
+
+      if(s.empty()){
+        return true;
+      }
+      int j = 0;
+      for(int i = 0; i < n; ++i){
+        if(s[j] == t[i]){
+            j++;
+        }
+        if(j == x){  // work out why this works, but j == x-1 does not
+            return true;
+        }
+
+      }  
+      return false;
+    }
+};
