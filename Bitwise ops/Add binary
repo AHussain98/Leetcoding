@@ -1,1 +1,51 @@
 
+class Solution {
+public:
+    string addBinary(string a, string b) {
+    // approach follows us adding binary numbers
+    // we start from the end, adding up until we get to the end of the strings
+    // create a string variable to store our result
+    // add leading zero's to the shorter string to even them out
+
+    if (a.length() < b.length()){
+        swap(a,b);  // we always want a to be larger
+    }
+    while (b.length() < a.size()){
+        b = "0" + b; // add leading zeros to b until it becomes the same size as a, put the char in front and make the variable equal to that, this puts the new char at the front
+    }
+
+    int carry = 0; // define the carryover for the addition, this will store the carryover for each addition
+    std::string res {""};  // the string that will store our result
+
+    for(int i = b.size()-1; i >= 0; --i){  // start at the end
+        
+        if(b[i] == '1' && a[i] == '1'){  // if both digits are 1
+            if(carry == 0){  res = '0' + res;} // if there isn't a carry
+            else{ res = '1' + res;} //use the carry we've got
+            carry = 1; // both 1's so we need a new carry for these chars
+        }
+        else if(b[i] == '0' && a[i] == '0'){
+             if(carry == 0){res = '0' + res;}
+             else{res = '1' + res;}
+              carry = 0; //the carry becomes 0, used up
+        }
+        else if((b[i] == '1' && a[i] == '0') || (b[i] == '0' && a[i] == '1')){ 
+            if(carry == 0){res = '1' + res;}
+            else{res = '0' + res;}  // carry stays as it is, as this would be 1 + 0 + 1 = 0 with a 1 carry over    
+            
+        }
+        
+
+
+    }
+
+  if(carry == 1){res = '1' + res;} //add the last carry onto the front of the string
+
+  return res;
+
+
+
+
+
+    }
+};
