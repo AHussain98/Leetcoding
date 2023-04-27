@@ -1,0 +1,41 @@
+Reverse bits of a given 32 bits unsigned integer.
+
+Note:
+
+Note that in some languages, such as Java, there is no unsigned integer type. In this case, both input and output will be given as a signed integer type. They should not affect your implementation, as the integer's internal binary representation is the same, whether it is signed or unsigned.
+In Java, the compiler represents the signed integers using 2's complement notation. Therefore, in Example 2 above, the input represents the signed integer -3 and the output represents the signed integer -1073741825.
+
+
+class Solution {
+public:
+    uint32_t reverseBits(uint32_t n) {
+        // we want to reverse bits of a 32 bit integer
+
+        // we want to go bit by bit
+
+        uint32_t res = 0; //construct our accumulator variable
+        // we are doing this for a 32 bit integer, we'll run the loop 31 times and then add the final binary digit on at the end
+        for(int i = 0; i < 31; ++i){
+            // n&1 will give us the right most bit, whether its 0 or 1
+            // we want to know if its a 1 or a 0
+            res = (n&1) + res;
+             res <<= 1;  // now add it to the current result and left shift the whole thing
+            n >>= 1;  // move to the next bit of n to the right
+            // n >>= y is the same as n = n >> y
+        }
+return res + (n%2);
+
+    }
+};
+
+/* class Solution {
+public:
+    uint32_t reverseBits(uint32_t n) {
+        uint32_t res = 0;
+        for (int i = 0; i < 31; i++) {
+            res = (n % 2) + res << 1;
+            n >>= 1;
+        }
+        return res + n % 2;
+    }
+}; */
