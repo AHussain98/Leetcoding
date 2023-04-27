@@ -1,0 +1,54 @@
+You are given a positive integer n.
+
+Let even denote the number of even indices in the binary representation of n (0-indexed) with value 1.
+
+Let odd denote the number of odd indices in the binary representation of n (0-indexed) with value 1.
+
+Return an integer array answer where answer = [even, odd].
+
+// we can do this by shifting 1 to the left or by shifting n to the right and comparing with 1
+
+class Solution {
+public:
+    vector<int> evenOddBit(int n) {
+
+        int evenIndex = 0;  // to store the number of occurances at an even index
+        int oddIndex = 0;  // to store the number of occurances at an odd index
+
+        for(int i = 0; i < 32; ++i){  
+            if(n & (1 << i)){  // we're shifting 1 to the left each time and storing the and operation
+                if (i%2==0){  // if the index is even (or 0) then add to the even count
+                evenIndex++;
+                }
+                else{ oddIndex++;}
+            }
+        }
+    std::vector<int> result{evenIndex, oddIndex};  // return the result
+     return result;
+
+   }
+};
+
+// another easier solution
+class Solution {
+public:
+    vector<int> evenOddBit(int n) {
+        int count=0;
+        int evn=0;
+        int odd=0;
+        while(n)
+        {
+            
+            if(n&1==1)
+            {
+                if(count%2==0)evn++;
+                else odd++;
+            }
+                
+                
+            count++;
+            n>>=1;
+        }
+        return {evn,odd};
+    }
+};
