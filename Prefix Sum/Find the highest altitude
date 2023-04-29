@@ -16,7 +16,7 @@ public:
         //  if(sum > max){
         //      max = sum;
         //  }
-        max = std::max(sum,max);
+        max = std::max(sum,max);  // this is faster than running an if statement
 
         }
         
