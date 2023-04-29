@@ -1,0 +1,38 @@
+Given an array of integers nums, calculate the pivot index of this array.
+
+The pivot index is the index where the sum of all the numbers strictly to the left of the index is equal to the sum of all the numbers strictly to the index's right.
+
+If the index is on the left edge of the array, then the left sum is 0 because there are no elements to the left. This also applies to the right edge of the array.
+
+Return the leftmost pivot index. If no such index exists, return -1.
+
+class Solution {
+public:
+    int pivotIndex(vector<int>& nums) {
+        // first we need to calculate the sum of the array from beginning to end
+        long right_sum = std::accumulate(std::begin(nums),std::end(nums),0);
+        long left_sum = 0;
+        
+        // now for each index, add the left element and remove the one on the right
+        // when they both become equal, return that index
+        // if not, then return -1
+
+        for(int i = 0; i < nums.size(); ++i){
+            
+            // left sum and right sum variables
+            
+            if(i == 0){ left_sum = 0;}
+            else{
+            left_sum += nums[i-1];}
+
+            right_sum -= nums[i];
+
+            if(left_sum == right_sum){
+                return i;
+            }
+        
+        }
+        return -1;
+
+    }
+};
