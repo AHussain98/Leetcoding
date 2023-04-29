@@ -1,0 +1,23 @@
+Given an integer x, return true if x is a palindrome, and false otherwise.
+
+class Solution {
+public:
+    bool isPalindrome(int x) {
+
+        // could convert the int to a string and then run through the usual is pallindrome two pointer solution
+        // could also use a stack and push each element from the rear onto the stack, then compare each single digit with a copy of the int 
+    
+    if((x%10 == 0 && x != 0) || x < 0){   //if x ends in 0 but is not zero, then it cannot be a palindrome, otherwise if x is negative then it also cannot be a palindrome
+        return false;
+    }
+    
+        int check = 0;  // create the variable for storing the reversed int
+         while(x>check){  // we only need to go halfway
+        check = check*10 + x%10;  // multiply the check int by 10 and add the last digit of x
+        x/=10; // remove the last element of x and continue
+    }
+    return (x == check || check / 10 == x);  // they will be the same if a palindrome and there is an even number of digits
+    // if there is an odd number of digits, we need to remove the last one from the check digit and try again (that is the middle digit)
+
+    }
+    
