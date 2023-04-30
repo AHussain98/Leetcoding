@@ -1,0 +1,74 @@
+Given the head of a singly linked list, return true if it is a 
+palindrome
+ or false otherwise.
+
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+
+    // we can do this by:
+// first find the middle node of the list
+// then reverse from the middle to the end
+// then compare like we do with a string or array, from start to end moving inwards
+// return the result
+public:
+    // create the function for finding the middle of the linked list
+    ListNode * endOfFirstHalf(ListNode * head){
+        ListNode * fast = head;
+        ListNode * slow = head;  // fast and slow pointers pointing to the head node
+        while(fast->next != NULL && fast->next->next != NULL){
+            fast = fast->next->next;
+            slow = slow->next;
+        }
+        return slow;
+    }
+   // now that we've got a function for finding the middle of the LL, we need to reverse the list after that point
+   ListNode * reverseList(ListNode * head){
+       ListNode * nextNode = NULL;
+       ListNode * prevNode = NULL;
+       ListNode * curr = head;
+       while(curr){
+           nextNode = curr->next;
+           curr->next = prevNode;
+           prevNode = curr;
+           curr = nextNode;
+       }
+       return prevNode;  // this returns the node on the end, the nodes from here will not be pointing inwards
+   }  
+
+
+
+    bool isPalindrome(ListNode* head) {
+
+        // to find the middle node, we use the two runner technique, one pointer moving two steps and another moving just one step
+        if(head == NULL){return true;}
+        // find the end of the first half 
+        ListNode * firstHalfEnd = endOfFirstHalf(head);
+        // reverse the second half
+        ListNode * secondHalfStart = reverseList(firstHalfEnd->next);
+        // now to check if there is a palindrome
+        ListNode * p1 = head;
+        ListNode * p2 = secondHalfStart; // p1 pointing at the node on the end
+        bool result = true;
+        while(result && p2 != NULL){  // p2 will become NULL when we get to the middle node, as the next pointer at the middle node will be pointing to NULL, as this is what we set it to when we begin reversing
+        if(p1->val != p2->val) {result = false;}
+         p1 = p1->next;
+         p2 = p2->next;
+        }  
+        return result;    
+    }
+    // we've run the check so now return the head node
+
+};
+
+
+// worst way to solve this is by copying the LL into an array and then using two pointer, or to solve recursively which adds O(n) space onto the runtim stack
