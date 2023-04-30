@@ -1,0 +1,66 @@
+You are given the heads of two sorted linked lists list1 and list2.
+
+Merge the two lists in a one sorted list. The list should be made by splicing together the nodes of the first two lists.
+
+Return the head of the merged linked list.
+
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
+       
+       // if list1 happens to be NULL, we will simply return list2
+       if(list1 == NULL){
+           return list2;
+       }
+       if(list2 == NULL){
+           return list1;
+       }
+       
+       // create a pointer to the front of the first list
+       ListNode * ptr = list1;
+       if(list1 -> val > list2 -> val){
+           ptr = list2;  // this pointer is set to whichever list has a smaller head
+           list2 = list2->next;  // list 2 moves onto the next node
+       }
+       else{ list1 = list1 -> next;}  // otherwise we keep ptr at the head of list1 and move list1 onto the next node
+       
+       ListNode * curr = ptr;  // currrent pointer is equal to ptr
+
+      // so we've now got ptr pointing to the start of out sorted list
+      // curr pointer will be used to set teh next elements in the sorted list
+
+       // until one of the lists doesn't reach NULL
+
+       while(list1 && list2){  // while list1 and list2 are pointers to valid nodes
+          if(list1 -> val < list2 -> val){
+              curr -> next = list1;  // if list1 has a smaller val, make it the next element in the sorted list and move on list1
+              list1 = list1 -> next;
+          }
+           else{
+               curr -> next = list2;
+               // if the val pointed to by list2 is smaller, make it the element pointed to by curr's next and move list2 on
+               list2 = list2->next;
+           }
+           curr = curr->next;  // curr then moves onto it's next
+       }
+
+       // add the remaining elements of the bigger list
+       if(!list1){  // if list1 is now finished, we just add all the elements of list2 onto the sorted list
+           curr -> next = list2;
+       }
+       else{ curr -> next = list1;}
+
+       return ptr;  // return the pointer to the sorted list
+    }
+};
