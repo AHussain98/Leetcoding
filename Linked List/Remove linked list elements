@@ -1,0 +1,35 @@
+Given the head of a linked list and an integer val, remove all the nodes of the linked list that has Node.val == val, and return the new head.
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* removeElements(ListNode* head, int val) {
+        ListNode * temp = head;  // create the temp pointer and point to head
+
+        while(temp){  // while temp is pointing to a not NULL object
+            while(head != nullptr && (head->val == val)){  // if head has the value we're removing, skip the head node and move head along
+                head = head->next;
+            }
+            if(head == nullptr){  // if we remove all of the nodes, there cannot be a valid list, so just return head
+                return head;
+            }
+
+            if(temp->next && temp->next->val == val){  //  if temp has a valid next, and temps next has the value we're after
+                temp->next = temp->next->next;  // skip the next node
+            }
+            else{temp = temp->next;}  // if temp does not have a next, or temps next's value is not the value we're looking for, then we can safely move on the temp pointer
+            // we only move on the temp pointer when we know the next element's val is not the one we're looking for, this is how we deal with the 1->2->2->1, val =2 case
+        }
+
+        return head;
+    }
+};
