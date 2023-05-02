@@ -27,6 +27,8 @@ The judge will then create the linked structure based on these inputs and pass t
  *     ListNode(int x) : val(x), next(NULL) {}
  * };
  */
+ 
+ //  o(N + M) solution
 class Solution {
 public:
     ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
