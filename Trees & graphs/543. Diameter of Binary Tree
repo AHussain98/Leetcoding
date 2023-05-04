@@ -27,8 +27,8 @@ public:
        if(!root){return 0;}
        int lHeight = height(root->left);
        int rHeight = height(root->right);
-       ans = max(ans, rHeight + lHeight);
-       return 1 + max(lHeight, rHeight);
+       ans = max(ans, rHeight + lHeight);  // This is ultimately what we'll be returning
+       return 1 + max(lHeight, rHeight);  // this is used when we're comparing two branches
     }
 
     int diameterOfBinaryTree(TreeNode* root) {
