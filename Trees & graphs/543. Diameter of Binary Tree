@@ -21,19 +21,19 @@ class Solution {
     // diameter is therefore nothing but the maximum of (left height + right height + 1) for a node, update this value for every node
     // the return value is the height of the tree for a node
 public:
-    int ans = 0;
+    int ans = 0;  // global variable
 
     int height(TreeNode * root){
-       if(!root){return 0;}
-       int lHeight = height(root->left);
+       if(!root){return 0;}  // base case
+       int lHeight = height(root->left);  // we have to go left and right
        int rHeight = height(root->right);
-       ans = max(ans, rHeight + lHeight);  // This is ultimately what we'll be returning
-       return 1 + max(lHeight, rHeight);  // this is used when we're comparing two branches
+       ans = max(ans, rHeight + lHeight);  // This is ultimately what we'll be returning, we're always trying to get the maximum
+       return 1 + max(lHeight, rHeight);  // this is used when we're comparing two branches, add one to the current level
     }
 
     int diameterOfBinaryTree(TreeNode* root) {
         if(!root){return 0;}
-        height(root);
-        return ans;
+        height(root);  // what we're returning here doesn't matter
+        return ans;  // we're actually going to return this
     }
 };
