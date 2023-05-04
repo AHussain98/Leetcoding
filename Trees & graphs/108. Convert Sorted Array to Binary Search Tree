@@ -1,0 +1,49 @@
+Given an integer array nums where the elements are sorted in ascending order, convert it to a 
+height-balanced binary search tree.
+
+/* Binary Search Tree is a node-based binary tree data structure which has the following properties:
+
+The left subtree of a node contains only nodes with keys lesser than the node’s key.
+The right subtree of a node contains only nodes with keys greater than the node’s key.
+The left and right subtree each must also be a binary search tree.  */
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+
+// lets remember what a binary search tree is, its a tree with two branches on each node where the left child is less than the root and the right child is more
+    
+TreeNode * sortedArrayToBST(vector<int>& nums, int start, int end){
+// return a TreeNode pointer with this function, take in a sorted vector, and int to start with and an int to end with
+if(end <= start){
+    return NULL;  // we can't create a binary tree if the starting node and the size are the same
+    // this is our base case
+}
+int midIdx = (start + end)/2; // middle index, this can be done since the array is sorted
+TreeNode* root = new TreeNode(nums[midIdx]); // create a root node, this is initally the middle node
+
+root->left = sortedArrayToBST(nums,start,midIdx); // the left child will be less 
+root->right = sortedArrayToBST(nums, midIdx +1, end);
+// right child creates nodes that are more than the node
+return root;
+
+
+}
+
+
+      
+    TreeNode* sortedArrayToBST(vector<int>& nums) {
+       return sortedArrayToBST(nums,0,nums.size()); // pass in the start, which is 0 and the end which is the size of teh array, this is the range we're creating the tree over
+            
+    }
+};
