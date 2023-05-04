@@ -1,0 +1,34 @@
+Given the root of a binary tree and an integer targetSum, return true if the tree has a root-to-leaf path such that adding up all the values along the path equals targetSum.
+
+A leaf is a node with no children.
+
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    bool hasPathSum(TreeNode* root, int targetSum) {
+        // we can solve this via depth first search, with recursion and adding up consecutive elements until we get to the sum
+        if(root == NULL){
+            return false;
+        }
+        /// root to leaf path, so we can only return true of the node is a leaf node and target sum is met with the addition of the root node
+        if(root->left == NULL && root -> right == NULL && targetSum - root->val == 0){
+            return true;
+        }
+        // recursively call this same function for both children of the root node
+        bool leftNode = hasPathSum(root -> left, targetSum - root -> val);
+        bool rightNode = hasPathSum(root -> right, targetSum - root->val);
+       // if any node returns true, this will propagate through the branch due to this or statement
+       return leftNode || rightNode;
+    }
+};
