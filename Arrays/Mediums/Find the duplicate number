@@ -1,0 +1,42 @@
+Given an array of integers nums containing n + 1 integers where each integer is in the range [1, n] inclusive.
+
+There is only one repeated number in nums, return this repeated number.
+
+You must solve the problem without modifying the array nums and uses only constant extra space.
+
+// we're going to solve this with a binary search
+// we're going to count the number of elements that appear, and we want to find the smallest number for which there are more numbers in the array smaller or equal to itself than its own value
+// apply the binary search and apply it to the entire range of elements
+// for the middle index, count how many elements are less than or requal to this
+// if we find a value that satisfies the above property, high becomes mid -1, we want to find the smallest value that is satisfied
+// if this value does not satisfy our requirements, then bring up low and lets try again with a larger value
+// do this as long as low is less than or equal to high
+
+class Solution {
+public:
+
+// we can solve this with a binary search
+
+    int findDuplicate(vector<int>& nums) {
+        int low = 1, high = nums.size() - 1, cnt;
+        while(low <=  high)
+        {
+            int mid = low + (high - low) / 2;
+            cnt = 0;
+            // cnt number less than equal to mid
+            for(int n : nums)
+            {
+                if(n <= mid)
+                    ++cnt;
+            }
+            // binary search on left
+            if(cnt <= mid)
+                low = mid + 1;
+            else
+            // binary search on right
+                high = mid - 1;
+            
+        }
+        return low;
+    }
+};
