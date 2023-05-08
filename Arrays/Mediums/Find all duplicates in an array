@@ -1,0 +1,33 @@
+Given an integer array nums of length n where all the integers of nums are in the range [1, n] and each integer appears once or twice, return an array of all the integers that appears twice.
+
+You must write an algorithm that runs in O(n) time and uses only constant extra space.
+
+
+class Solution {
+public:
+    vector<int> findDuplicates(vector<int>& nums) {
+      // we can do this by taking advantage of the fact that every element will be in the range 1,n , where n is the size of the input array
+      // for every element in the array, we make the value at that index negative
+      // if we find an element twice, the value at its index will be positive
+      // we poll every value we come accross and check if the value at the correctponding index is positive, if so, then add the value to our array of elements that appear twice
+
+      std::vector<int> ans;
+
+      for(int i = 0; i < nums.size(); ++i){
+         // evaluate index of the selected element 
+         int index = abs(nums[i]) -1;   // we know the values start from 1
+
+         // now make the element at that index negative
+         nums[index] = -nums[index];
+
+         // now evaluate if the element at that index has become positive, if it has then we can add it to our ans vector
+         if(nums[index] > 0){
+             ans.push_back(index + 1);
+         }
+
+      }
+
+      return ans;
+
+    }
+};
