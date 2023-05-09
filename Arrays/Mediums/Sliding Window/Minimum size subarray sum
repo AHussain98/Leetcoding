@@ -1,0 +1,34 @@
+Given an array of positive integers nums and a positive integer target, return the minimal length of a 
+subarray
+ whose sum is greater than or equal to target. If there is no such subarray, return 0 instead.
+
+
+class Solution {
+public:
+    int minSubArrayLen(int target, vector<int>& nums) {
+        // A subarray is a contiguous non-empty sequence of elements within an array.
+
+        // minimial length of a subarray where the sum is greater than or equal to the target
+
+        // we can use a sliding window solution
+
+        int l = 0;  // left and right pointers
+        int r = 0;
+        int n = nums.size();
+        int sum = 0;  // sum of the window
+        int length =    INT_MAX;  // length of the subarray, make it equal to the maxiumum theoretical for now
+
+        while( r < n){  // while the end of the sliding window does not reach the end of the array
+        sum += nums[r++]; // add the value at r and then increase r
+        while (sum >= target){  // while sum is greater than or equal to target       
+        length = min(length, r-l);  // length is set to the minimum of length or r-l while the sum is still greater than or equal to target
+        sum -= nums[l++];  //  now reduce the sum by l and move l forward, this will help us to find the minimum number of elements that satisfy this condition
+
+        }
+        }
+             return length == INT_MAX ? 0 : length; 
+             // if we couldnt find a window (or even element) greater than target, then return 0, else return the length of the minimum window
+    }
+};
+
+// this is an O(N) solution since we visit each element at most once
