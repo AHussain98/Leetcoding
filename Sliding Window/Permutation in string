@@ -1,0 +1,50 @@
+class Solution {
+public:
+    bool checkInclusion(string s1, string s2) {
+        // the basic idea is to create a hashmap of chars that appear in s1, with their counts
+        // we then iterate a sliding window through s2, and lower the number for characters that appear in the window and hashmap
+        // when all of the counters in the hashmap have reached zero, we have found the permutation
+
+        unordered_map<char,int> map; // use hashmap to store every element in s1
+        for(auto i : s1){
+            map[i]++;
+        }
+        int count = map.size(); // use this variable to see if all the characters in the map have the same frequency
+        int l,r = 0;
+        int k = s1.size(); // size of the window
+
+        while(r < s2.size()){
+            if(map.find(s2[r]) != map.end()){
+                map[s2[r]]--;
+                if(map[s2[r]] == 0){
+                    count--;
+                } // if the r pointer finds an element thats also in the map, reduce the count of that element
+            } // if the count of an element becomes 0, reduce the count variable by 1
+            // when count becomes zero, we can return true, we've found an anagram
+        
+           if((r - l) + 1 < k){
+               r++; // if window size can be increased, move r along, this will only be the case at the start
+           }
+
+           else if((r-l)+1 == k){
+               // if the window is the correct size
+               if (count == 0){ // we've found the correct number of every element in consectuve positions so return true
+                   return true;
+               }
+
+               if(map.find(s2[l]) != map.end()){
+                   map[s2[l]]++; // increase the count of the element that the left pointer is pointing to if it exists in the hashmap, this is because we decreased the count earlier when our right pointer passed over it
+
+                   // this is also how we account for the correct elements appearing earlier in the target string but not as part of the permutation
+                   if(map[s2[l]] == 1){count++;}// increase the count only when we would have decreased it previously
+               }
+               l++;
+               r++; // we move the pointers along in this else if block
+               // this ensures we move the sliding window along only when its the correct size
+           }
+           
+        }
+
+        return false; // if code gets to this point, then we can return false as sliding window did not find element
+    }
+};
