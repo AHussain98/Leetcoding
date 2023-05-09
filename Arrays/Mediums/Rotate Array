@@ -1,0 +1,19 @@
+Given an integer array nums, rotate the array to the right by k steps, where k is non-negative.
+
+
+
+class Solution {
+public:
+    void rotate(vector<int>& nums, int k) {
+        // every element in the array gets rotated to the right by k elements
+        std::vector<int> temp(nums);  /// create a clean array
+        for(int i = 0; i < nums.size(); ++i ){
+            nums[(i+k)% nums.size()] = temp[i];  // shift each element and then mod by the size of the array
+        }
+    }
+};
+
+
+// the above approach is O(N) time and O(N) space
+// lets try doing it inplace
+
