@@ -38,4 +38,6 @@ public:
         return maximum;
 
     }
+    
+    // you can actually get rid of the l < r in the above while statement
 };
