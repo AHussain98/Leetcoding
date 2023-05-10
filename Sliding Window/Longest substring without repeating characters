@@ -1,0 +1,61 @@
+Given a string s, find the length of the longest 
+substring
+ without repeating characters.
+
+
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+       // A substring is a contiguous non-empty sequence of characters within a string.
+       // use a hashmap to store elements and the frequency with which they appear
+       // if a new element is added into the sliding window and its   
+
+     // actually, we can use a hashset, which is even faster 
+
+     std::unordered_set<char> set;
+     int i = 0, j = 0, n = s.size(), ans = 0;
+
+     while (j < n){  // while the RHS of the sliding window has not reached the end of the string
+     if(set.find(s[j]) == set.end()){     // if the character does not exist in the set at present
+     set.insert(s[j]);     // insert the element into the set
+     j++;     // move the j pointer along
+     ans = max(ans,j-i);  }   // answer is the maximum of the previous answer and the size of the window
+        else{     // so if the character does exist in the array, it is therefore a repeated character
+     set.erase(s[i]);    // we remove the character that was at i
+     i++; // then we move i along
+
+     }
+
+     }
+
+     
+         return ans;        
+       
+    }
+// we can optimise further by just using a vector storing elements that represent chars
+
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        // we will store a senitel value of -1 to simulate 'null'/'None' in C++
+        vector<int> chars(128, -1);
+
+        int left = 0;
+        int right = 0;
+
+        int res = 0;
+        while (right < s.length()) {
+            char r = s[right];
+
+            int index = chars[r];
+            if (index != -1 and index >= left and index < right) {
+                left = index + 1;
+            }
+            res = max(res, right - left + 1);
+
+            chars[r] = right;
+            right++;
+        }
+        return res;
+    }
+};
