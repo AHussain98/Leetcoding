@@ -1,0 +1,39 @@
+
+
+
+Given an integer array nums, return all the triplets [nums[i], nums[j], nums[k]] such that i != j, i != k, and j != k, and nums[i] + nums[j] + nums[k] == 0.
+
+Notice that the solution set must not contain duplicate triplets.
+
+class Solution {
+public:
+    vector<vector<int>> threeSum(vector<int>& nums) {
+        //  all 3 numbers must be unique
+        // all vectors must be unique 
+        if(nums.size() < 3){return {};} // if there are less than three elements, there cannot be a triplet
+            vector<vector<int>> ret; // the vector we will return
+            sort(nums.begin(), nums.end()); // sort the array
+            for(int i = 0; i < nums.size() -1; ++i){ // run for each value of i
+             if(i > 0 && nums[i] == nums[i-1]){continue;} // if we've already considered a value of i, skip ahead until i is a new value
+             // if there is a repeated element, continue, move i along
+              int tar = 0 - nums[i]; // this is the target that we're trying to get high and low to combine to create
+              int hi = nums.size()-1; // last index
+              int lo = i + 1; // one more than i
+              // so hi and lo are going to be reset for every value of i
+              while(hi > lo){
+                  int sum = nums[hi] + nums[lo];
+                  if(sum > tar){hi--;} // sum is too larget so hi needs to be reduced
+                  else if(sum < tar){lo++;} // sum is too low, so increase lo and try again
+                  else{ // else sum is equal to target and we can push back the corresponding vector
+                  ret.push_back({nums[i],nums[lo],nums[hi]});
+                  lo++; hi--; // we can move low up and high down to get a unique value
+while(hi > lo && nums[hi] == nums[hi + 1]){hi--;} // make hi a unique value
+while(hi > lo && nums[lo] == nums[lo-1]){lo++;} // make lo a unique value
+                  }
+              }    
+
+            }
+
+            return ret;
+    }
+};
