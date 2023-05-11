@@ -1,0 +1,68 @@
+You are given an integer array height of length n. There are n vertical lines drawn such that the two endpoints of the ith line are (i, 0) and (i, height[i]).
+
+Find two lines that together with the x-axis form a container, such that the container contains the most water.
+
+Return the maximum amount of water a container can store.
+
+Notice that you may not slant the container.
+
+
+class Solution {
+public:
+    int maxArea(vector<int>& height) {
+        // for a O(N) solution, we'll use a two pointer approach
+        // take a pointer at the start and at the end
+        // calculate the area with the minimum height multiplied by the distance
+        // store the maximum to the variable ans
+        // whichever of the two pointers is pointing to the shorter height, move it along to the next index
+        // repeat
+
+        int n = height.size();
+        int lo = 0;
+        int hi = n-1; //pointers to the start and end indices
+        int maximum = 0;
+
+        while(lo < hi){
+         int area = (hi - lo) * min(height[hi],height[lo]);
+         maximum  = max(maximum,area);
+          
+
+          if(height[hi] > height[lo]){
+              lo++;
+          }
+          else{hi--;}
+
+        }
+
+        return maximum;
+    }
+};
+
+
+
+
+
+// O(n2) brute force solution, just consider the area for every possible pair of lines, 
+/* class Solution {
+public:
+    int maxArea(vector<int>& height) {
+        int n= height.size();
+        int ans= INT_MIN;
+        
+        for(int i=0; i<n-1; i++){
+            for(int j=i+1; j<n; j++){
+                int a= min(height[i], height[j])*(j-i);
+                ans = max(ans,a);
+            }
+        }
+        return ans;
+    }
+
+
+    Here we’ll solve using the 2pointer approach.
+We took 2 pointers start & end.
+Calculate the area with the minimum height multiplied by distance.
+Store the maximum to ans.
+Move the shorter height among 2 pointers to the next position.
+Time complexity: O(n).
+}; */
