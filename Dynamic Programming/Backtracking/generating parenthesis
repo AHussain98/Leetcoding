@@ -1,0 +1,31 @@
+Given n pairs of parentheses, write a function to generate all combinations of well-formed parentheses.
+
+
+class Solution {
+public:
+         // we have to calculate all the possible permutations of brackets
+      // this is a backtracking problem  
+      // base case to stop the recursion is when a string reaches the maximum length which is n*2
+    
+    // left represents how many left parenthesis remain
+    // right represents how many right parenthesis remain
+    // the remaining right parenthesis should be larger than the left ones
+    vector<string> generateParenthesis(int n) {
+
+      std::vector<string> res; // vector of strings that has all out combtions of parenthesis
+    
+    helper(res,"",n,n);  // call the helper function, pass in the return vector, an empty string, and the number of pairs we need
+    return res; }
+ 
+ 
+    void helper(std::vector<string>& ret, string str, int left, int right){
+
+if(left == 0 && right == 0){
+    ret.push_back(str);
+    return;
+}
+if(left > 0) {helper(ret, str + "(", left - 1, right );}
+if(right > left){helper(ret,str + ")",left, right - 1);}
+
+
+    }
