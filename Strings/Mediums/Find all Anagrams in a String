@@ -1,1 +1,57 @@
+Given two strings s and p, return an array of all the start indices of p's anagrams in s. You may return the answer in any order.
 
+An Anagram is a word or phrase formed by rearranging the letters of a different word or phrase, typically using all the original letters exactly once.
+
+ 
+
+class Solution {
+public:
+    vector<int> findAnagrams(string s, string p) {
+       // we are returning the start indices of the anagram 
+       // we can use a fixed size vector to store the indices
+       std::vector<int> res;
+       // we'll use a hashmap to store the elements in the target string and the amount of times they appear
+       std::unordered_map<char,int> map;
+
+       // now go through p and push its values and their counts into map
+       for (int i = 0; i < p.size(); ++i){
+           map[p[i]]++;
+       } 
+       // create a count variable to store the frequencies for each char in the sliding window, when a char's appearances hit zero, the count is reduces
+       int count = map.size();
+       // now we need a window size
+       int len = p.size();
+       int i = 0; // left bound of window
+       int j = 0; // right bound of window
+
+       while(j < s.size()){  // as long as j is less than the size of the string s
+       if(map.find(s[j]) != map.end()){ // if the char currently pointed at by j is in the map of elements in p
+      map[s[j]]--; // reduce the count of that specific char in the map
+      if(map[s[j]] == 0){ // if evey appearance of the char is accounted for, then reduce teh count variable
+          count--;
+      } }
+
+      if(j-i + 1 < len){j++;} // if the current poistion of j is not large enough to create the whole window, increase j 
+      else if(j - i + 1 == len){// if the window is the correct size (we can only have an anagram if this is the case)
+      if(count == 0){ // if count is equal to zero, each char in p as showed up the correct amount of times, so we have found an anagram
+  res.push_back(i);    }
+  
+  if(map.find(s[i]) != map.end()){ // if the element at i also shows up in the list of chars we're looking for, we've got to increase it again
+  map[s[i]]++;
+  // now if the number was brought down to zero previously, we need to increase the count variable now that it isnt zero
+  if(map[s[i]] == 1){
+    count++;
+  }
+  // now since we have the correct size window in this block, lets slide the window along and reloop
+  }
+  i++;
+  j++;
+
+  
+  
+  } 
+
+       }
+        return res;
+    }
+};
