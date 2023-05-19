@@ -1,0 +1,44 @@
+Given an integer array nums, find the subarray with the largest sum, and return its sum.
+
+class Solution {
+public:
+    int maxSubArray(vector<int>& nums) {
+        // return the largest sum of a subarray
+        // A subarray is a contiguous non-empty sequence of elements within an array.
+        // dynamic programming approach
+
+        // maintain a running maximum smax and a current summation sum
+        // when we visist each num in nums, add num to sum and then update smax if necessay or reset sum to zero if it becomes negative
+
+        int sum = 0; // this gets updated for each num in nums
+
+        int smax = INT_MIN;
+        for(auto i : nums){
+            sum += i;
+            smax = max(smax,sum);
+
+            if(sum < 0){
+                sum = 0;  // this resets the subarray when sum becomes negative
+            }
+        }
+        return smax;
+
+
+
+    }
+};
+
+
+
+// brute force, try every subarray and find the maximum
+class Solution {
+public:
+    int maxSubArray(vector<int>& nums) {
+        int n = size(nums), ans = INT_MIN;
+        for(int i = 0; i < n; i++) 
+            for(int j = i, curSum = 0; j < n ; j++) 
+                curSum += nums[j],
+                ans = max(ans, curSum);        
+        return ans;
+    }
+};
