@@ -1,0 +1,54 @@
+Given an array of integers nums and an integer k, return the total number of subarrays whose sum equals to k.
+
+A subarray is a contiguous non-empty sequence of elements within an array.
+
+
+
+class Solution {
+public:
+    int subarraySum(vector<int>& nums, int k) {
+        // this can have negative values so we can't do sliding window
+        // we can solve this with an adapted prefix sum
+    std::unordered_map<int,int> map; // map to store the sum values at each index
+    int sum = 0;
+    int ans = 0;
+    // we use a hashmap to store the prefix sum count
+    // we traverse through the array, adding elements to the sum and checking if the sum is equal to k
+    // we also check if the gap between any two elements is equal to k, in which case we can add that to the sum aswell, as thats a subarray
+    for(int i = 0; i < nums.size(); ++i){
+
+        sum += nums[i];
+
+        if(sum == k){
+            ans++;}
+
+        if(map.find(sum - k)  !=  map.end()){  // if the gap between sum at current index and k exists elsewhere
+           // ans++;  this doesnt work with a testcase of all 0's and k as 0
+           ans += map[sum-k];  // this compensates
+        } 
+        map[sum]++;   
+    }
+
+    return ans;
+        
+    }
+};
+
+
+
+// brute force solution
+// // public class Solution {
+//     public int subarraySum(int[] nums, int k) {
+//         int count = 0;
+//         for (int start = 0; start < nums.length; start++) {
+//             for (int end = start + 1; end <= nums.length; end++) {
+//                 int sum = 0;
+//                 for (int i = start; i < end; i++)
+//                     sum += nums[i];
+//                 if (sum == k)
+//                     count++;
+//             }
+//         }
+//         return count;
+//     }
+// }
