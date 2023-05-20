@@ -1,0 +1,30 @@
+You are given an integer array nums. You are initially positioned at the array's first index, and each element in the array represents your maximum jump length at that position.
+
+Return true if you can reach the last index, or false otherwise.
+
+
+class Solution {
+public:
+    bool canJump(vector<int>& nums) {
+      // initalise a variable reach as 0
+      // reach represents the furthest index that we can reach so far
+      // loop through the array and for each index i:
+      // if i is greater than reach or reach is greater than or equal to nums.length, then break the loop as reaching last index is not possible
+      // update the value of reach as the maximum of reach and i + nums[i]
+      // return reach >= nums.length - 1
+
+      int n = nums.size();
+      int reach = 0; // furthest index we can reach
+      for(int i = 0; i < n; ++i){
+          if(i > reach || reach >= n-1){ break;}
+          // (i > reach) covers us for when we get to a zero, or to a index we can't reach
+
+          reach = max(reach, i + nums[i]); // reach either stays the same or the current index is added
+      }
+
+      if(reach >= n-1){ return true;}
+
+      return false;
+
+    }
+};
