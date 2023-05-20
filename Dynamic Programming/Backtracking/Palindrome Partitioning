@@ -1,0 +1,46 @@
+Given a string s, partition s such that every substring of the partition is a palindrome. Return all possible palindrome partitioning of s.
+
+class Solution {
+public:
+    vector<vector<string>> partition(string s) {
+      // this looks like a backtracking problem  
+      // we follow a depth first search approach
+
+      vector<vector<string>> result;  // vetcor for storing all the substrings that satisfy the pallindrome condition
+      vector<string> path;  // vector for storing the ongoing substr 
+      partition(s,0,path,result); // call the helper function
+      return result;
+    }
+
+      // dfs
+      // start is the beggining of each substring 
+      void partition(string& s, int start, vector<string>& path, vector<vector<string>>& result){ // we search from start to the end of the string
+       int n = s.length();
+       if(start == n){result.push_back(path);} // once we reach the end of the string, push back the paths onto the result
+       else{
+           for(int i = start; i < n; ++i){
+               if(isPalindrome(s,start,i)){
+                   path.push_back(s.substr(start, i - start + 1));
+                   partition(s, i+1,path,result); // recursively call the same method to execute on remaining substring if the current substring is pallindromic
+                   path.pop_back();  // pop back the last added string and try again with a larger one, this is how we cover all our tracks without repeating ourselves
+               }
+              // partition(s, i+1,path,result); 
+           }
+       }
+
+
+      }
+
+
+      bool isPalindrome(string& s, int l, int r){
+          while(l < r){
+              if(s[l++] != s[r--]){
+                  return false;
+              }
+          }
+          return true;
+      }
+
+};
+
+
