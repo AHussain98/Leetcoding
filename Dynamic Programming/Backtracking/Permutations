@@ -20,7 +20,7 @@ public:
      for(int j = start; j <= end; j++){
          swap(nums[start],nums[j]);
          permutation(nums,result,start+1,end);
-         swap(nums[start],nums[j]);
+         swap(nums[start],nums[j]);  // return to its original state, and then return this
      }
 
     }
