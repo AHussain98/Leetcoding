@@ -18,3 +18,104 @@ public:
         }
     }
 };
+
+given an R x C matrix, rotate 90 degree clockwise in place (with constant extra space).
+The matrix is given as an array, you should do this within the array.
+Example: 。
+input: R = 3, C = 4, array = 1 2 3 4 5 6 7 8 9 10 11 12
+output: R = 4, C = 3, array = 9 5 1 10 6 2 11 7 3 12 8 4
+
+explaination:
+the input matrix is:
+1 2 3 4
+5 6 7 8
+9 10 11 12
+the output matrix is:
+9 5 1
+10 6 2
+11 7 3
+12 8 4
+
+T.C = O( R*C )
+S.C = O(1) [ in place ]
+solution:
+class Solution {
+public:
+void rotate(vector<vector>& matrix) {
+int row = matrix.size();
+int col = matrix[0].size();
+
+    for(int i = 0; i<row ;i++){
+        int j = 0;
+        while( j<i ){
+            swap(matrix[i][j],matrix[j][i]);
+            j++;
+        }
+    }
+
+    for(int i = 0 ; i < row ; i++){
+        int n = 0;
+        int m = col-1;
+        while(n<m){
+            swap(matrix[i][n],matrix[i][m]);
+            n++;
+            m--;
+        }
+    }
+}
+};
+
+Given two n x n binary matrices mat and target, return true if it is possible to make mat equal to target by rotating mat in 90-degree increments, or false otherwise.
+We need to check for the 0, 90, 180, 270 degree's only.
+
+0 degree - If given matrix is same as target
+90 degree - rotate matrix
+180 degree - rotate previous 90 degree more 90 degree to get 180 degree rotation.
+270 degree - rotate previous 180 degree more 90 degree to get 270 degree rotation.
+
+How rotation Works?
+
+let the matrix be-
+0 1 1
+0 0 1
+1 0 0
+
+first take the transpose(rows become columns and vice versa) ie. -
+0 0 1
+1 0 0
+1 1 0
+
+now reverse each row ie-
+1 0 0
+0 0 1
+0 1 1
+
+Now you can see that, this resulted matix is the 90 degree rotation of the original matrix. We need to do this 2 more time to check for 180, 270 degree's.
+
+class Solution {
+public:
+    bool findRotation(vector<vector<int>>& mat, vector<vector<int>>& target) {
+        int n = mat.size();
+        if(mat == target) {     // rotation by 0 degree.
+            return true;
+        }
+        
+        int deg = 3;    // more rotations with 90, 180, 270 degree's.
+        
+        while(deg --) {
+            for(int i = 0; i < n; i ++) {
+                for(int j = i; j < n; j ++) {
+                    swap(mat[i][j], mat[j][i]);     // transpose of matrix.
+                }
+            }
+            for(int i = 0; i < n; i ++) {
+                reverse(mat[i].begin(),mat[i].end());       // reverse each row.
+            }
+            if(mat == target) {
+                return true;
+            }
+        }
+        return false;
+    }
+};
+
