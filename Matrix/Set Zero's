@@ -1,0 +1,159 @@
+Given an m x n integer matrix matrix, if an element is 0, set its entire row and column to 0's.
+
+You must do it in place.
+
+class Solution {
+public:
+    void setZeroes(vector<vector<int>>& matrix) {
+        int n = matrix.size(); // number of rows
+        int m = matrix[0].size(); // number of columns
+
+        // now lets loop through the matrix looking for zeros
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < m; ++j){ // so for every element
+                
+                if (matrix[i][j] == 0){ // if we find a zero
+                    for(int k = 0; k < m; k++){
+                        if(matrix[i][k] != 0){ // if we find another zero on the line with zeros then ignore it, otherwise turn the whole row into -9999
+                            matrix[i][k] = -99999;
+                        }
+                    }
+                }
+
+            }
+        }
+
+        // now that we've done rows, lets do columns
+        for(int i = 0; i < n; ++i){
+            for(int j = 0; j < m; ++j){
+
+                if(matrix[i][j] == 0){ // if we find a zero (remember we didn't change zeros in the previous loop)
+                   for(int k = 0; k < n; ++k){
+                       if(matrix[k][j] != 0){
+                           matrix[k][j] = -99999; // so if we find a zero, make the whole column -9999 unless it's a zero elsewhere in the column
+                       }
+                   }
+                }
+            }
+        }
+
+        // now lets mop up the -9999's
+        for(int i = 0; i < n; ++i){
+            for(int j = 0; j < m; ++j){
+                if(matrix[i][j] == -99999){
+                    matrix[i][j] = 0;
+                }
+            }
+        }
+    }
+};
+
+this solution is     Time Complexity : O((N*M)*(N+M)), Where N is the number of row and M is number of column of matrix. Here
+    nested loops creates the time complexity. O(N*M) for traversing through each element and (N+M)for traversing
+    to row and column of elements having value 0.
+
+    Space Complexity : O(1), Constant space.
+
+    Solved using Matrix.
+
+other solutions:
+
+    Time Complexity : O(N*M), Where N is the number of row and M is number of column of matrix. Here two nested 
+    loops creates the time complexity.
+
+    Space Complexity : O(N+M), Here Unordered set(setRows and setColumn) creates the space complexity. O(N) for
+    storing the row indexs and O(M) for storing the column indexs.
+
+    Solved using Matrix + Hash Table.
+
+*/
+
+
+/***************************************** Approach 3 Code *****************************************/
+
+class Solution {
+public:
+    void setZeroes(vector<vector<int>>& matrix) {
+        int n = matrix.size();
+        int m = matrix[0].size();
+        unordered_set<int> setRows; 
+        unordered_set<int> setColumns; 
+        for(int i=0; i<n; i++){
+            for(int j=0; j<m; j++){
+                if(matrix[i][j] == 0){
+                    setRows.insert(i);
+                    setColumns.insert(j);
+                }
+            }
+        }
+        for(int i=0; i<n; i++){
+            for(int j=0; j<m; j++){
+                if(setRows.count(i) > 0 || setColumns.count(j) > 0){
+                    matrix[i][j] = 0;
+                }
+            }
+        }
+    }
+};
+
+
+
+
+
+
+/*
+
+    Time Complexity : O(N*M), Where N is the number of row and M is number of column of matrix. Here two nested 
+    loops creates the time complexity.
+
+    Space Complexity : O(1), Constant space.
+
+    Solved using Matrix.
+
+*/
+
+
+/***************************************** Approach 4 Code *****************************************/
+
+class Solution {
+public:
+    void setZeroes(vector<vector<int>>& matrix) {
+        int n = matrix.size();
+        int m = matrix[0].size();
+        bool flag1 = false, flag2 = false;
+        for(int i=0; i<n; i++){
+            if(matrix[i][0] == 0){
+                flag1 = true;
+            }
+        }
+        for(int j=0; j<m; j++){
+            if(matrix[0][j] == 0){
+                flag2 = true;
+            }
+        }
+        for(int i=1; i<n; i++){
+            for(int j=1; j<m; j++){
+                if(matrix[i][j] == 0){
+                    matrix[i][0] = matrix[0][j] = 0;
+                }
+            }
+        }
+        for(int i=1; i<n; i++){
+            for(int j=1; j<m; j++){
+                if(matrix[i][0] == 0 || matrix[0][j] == 0){
+                    matrix[i][j] = 0;
+                }
+            }
+        }
+        if(flag1 == true){
+            for(int i=0; i<n; i++){
+                matrix[i][0] = 0;
+            }
+        }
+        if(flag2 == true){
+            for(int j=0; j<m; j++){
+                matrix[0][j] = 0;
+            }
+        }
+    }
+};
