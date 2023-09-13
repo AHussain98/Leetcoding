@@ -1,1 +1,65 @@
+You are given an m x n integer matrix matrix with the following two properties:
 
+Each row is sorted in non-decreasing order.
+The first integer of each row is greater than the last integer of the previous row.
+Given an integer target, return true if target is in matrix or false otherwise.
+
+You must write a solution in O(log(m * n)) time complexity.
+
+class Solution {
+public:
+    bool searchMatrix(vector<vector<int>>& matrix, int target) {
+        // since the matrix is fully ordered, we can treat it as a standard array
+        // lets run a binary search on it
+
+        int m = matrix.size();  // number of rows
+        int n = matrix[0].size(); // number of columns
+        // lets get the first and last elemnnts
+        int start = 0;
+        int end = m*n - 1;
+        
+        while(start <= end){
+            // find the middle
+            int mid = (start + end) / 2;
+            if( matrix[mid/n][mid%n] == target){  // divide mid and take the mod of mid by the number of columns to find the middle element in the matrix
+                return true;
+            }
+            else if (matrix[mid/n][mid%n] > target){ end = mid - 1;}
+            else{
+                start = mid + 1;
+            }
+        }
+
+        return false;
+
+    }
+};
+
+
+If closely analyze the given matrix, we can notice one interesting property (╭ರ_•́): elements on the left are always smaller than the current element, and elements on the bottom are always greater. It reminds us of the Binary Search Tree, doesn't it (๏็ટૄ◟๏็ )? Just look at this matrix from this angle and everything will become clear to you (our target, say, is 11):
+
+
+
+Time: O(n + m) - n in the case we have just one row
+Space: O(1) - nothing stored
+
+Runtime: 3 ms, faster than 88.01% of C++ online submissions for Search a 2D Matrix.
+Memory Usage: 9.6 MB, less than 52.00% of C++ online submissions for Search a 2D Matrix.
+
+class Solution {
+public:
+    bool searchMatrix(vector<vector<int>>& matrix, int target) {
+        int rows = matrix.size(),
+			cols = matrix[0].size(),
+            row = 0, col = cols - 1;
+			
+        while (row < rows && col > -1) {
+            int cur = matrix[row][col];
+            if (cur == target) return true;
+            if (target > cur) row++;
+            else col--;
+        }
+        
+        return false;
+    }
+};
