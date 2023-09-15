@@ -1,0 +1,73 @@
+Given a binary tree, find the lowest common ancestor (LCA) of two given nodes in the tree.
+
+According to the definition of LCA on Wikipedia: “The lowest common ancestor is defined between two nodes p and q as the lowest node in T that has both p and q as descendants (where we allow a node to be a descendant of itself).”
+
+Solution 1: Depth First Search
+
+Please note that p and q always exist in the tree.
+Since we dfs from the root down to its children, if current root == p or root == q then current root must be their LCA.
+If left subtree contains one of descendant (p or q) and right subtree contains the remaining descendant (q or p) then the root is their LCA.
+If left subtree contains both p and q then return left as their LCA.
+If right subtree contains both p and q then return right as their LCA.
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        // a node can be a descendent of itself
+        // so we search down until we find the node in question, then recursievly search until we find the first node they have in common
+      // we know that p and q are in the tree, therefore we know that the lca is either p or q
+      if(root == nullptr){return NULL;} // if we find a leaf node, just return null
+      if(root->val == p->val || root->val == q->val){return root;} // if we find one of the values we're after, return a pointer to the node that has the val
+    TreeNode* left = lowestCommonAncestor(root->left,p,q); // run again for the left node
+    TreeNode* right = lowestCommonAncestor(root->right,p,q); // run again for the right node
+
+    // now for the last part to be worked out
+    if(left && right){return root;} // the node where both left and right return valid is the lca, this is where both subtrees contain p and q
+    if(left){return left;} // otherwise return the left node, which contains both p and q
+    return right; // otherwise return right which must be the subtree that contains p and q
+
+
+    }
+};
+
+ I do a post-order traversal with a stack. Each stack element at first is a [node, parent] pair, where parent is the stack element of the node's parent node. 
+When the children of a parent get finished, their results are appended to their parent's stack element. 
+So when a parent gets finished, we have the results of its children/subtrees available 
+(its stack element at that point is [node, parent, resultForLeftSubtree, resultForRightSubtree]).
+class Solution {
+    struct Frame {
+        TreeNode* node;
+        Frame* parent;
+        vector<TreeNode*> subs;
+    };
+public:
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        Frame answer;
+        stack<Frame> stack;
+        stack.push({root, &answer});
+        while (stack.size()) {
+            Frame *top = &stack.top(), *parent = top->parent;
+            TreeNode *node = top->node;
+            if (!node || node == p || node == q) {
+                parent->subs.push_back(node);
+                stack.pop();
+            } else if (top->subs.empty()) {
+                stack.push({node->right, top});
+                stack.push({node->left, top});
+            } else {
+                TreeNode *left = top->subs[0], *right = top->subs[1];
+                parent->subs.push_back(!left ? right : !right ? left : node);
+                stack.pop();
+            }
+        }
+        return answer.subs[0];
+    }
+};
