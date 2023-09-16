@@ -1,0 +1,51 @@
+Given the root of a binary tree, return the level order traversal of its nodes' values. (i.e., from left to right, level by level).
+
+* Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    vector<vector<int>> levelOrder(TreeNode* root) {
+        // we have to go level by level, so we can use a queue ti store the nodes on each level
+        vector<vector<int>> LOnodes; // this is the sum vector
+
+        if(!root){ return LOnodes;}
+
+        std::queue<TreeNode*> q;
+        q.push(root); // start by pushing on the root node
+        TreeNode* fr;
+       
+        while(!q.empty()){  
+            
+            vector<int> levelVal;  // use this to store the elements on each level, while loop below ensures it doesnt reset
+            int size = q.size(); // how many elements in the queue currently
+                while(size > 0){
+                    fr = q.front();
+                    levelVal.push_back(fr->val); // push the val element onto the level vector
+                    q.pop(); // now remove the element from the from of the queue
+
+                    if(fr->left){q.push(fr->left);}
+                    if(fr->right){q.push(fr->right);}
+
+                      // we run the inner loop for as long as size is greater than zero
+                    // inner while loop resets after every level because size is taken level by level
+                    size--;
+                }
+                
+                // now before the outer loop resets, we need to push back what we've currently got for the level
+                LOnodes.push_back(levelVal);
+
+
+
+        }
+
+        return LOnodes;
+    }
+};
