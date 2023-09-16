@@ -1,0 +1,65 @@
+Given the root of a binary search tree, and an integer k, return the kth smallest value (1-indexed) of all the values of the nodes in the tree.
+
+
+Solution 02
+Using Recursion.
+if we do inorder traversal then in kth iteration we’ll get our ans.
+return the ans.
+Time complexity: O(n).
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    int min = 0; // use this to store the answer
+    int kthSmallest(TreeNode* root, int k) {
+        // we can search down the tree until we find the smallest value, rmemeber that this is a binary search tree so we can keep searching left to find the smallest value
+        // once we've found the left leaf node, we can return, taking one away from k every time
+        // when k is zero, we can return whatever value we've got at that node
+        search(root,k);
+        return min;
+    }
+
+void search(TreeNode* root, int& k){        
+        if (root == nullptr){ return;}  // we only want to return when we reach the leaf node on the left, as we know this will be the smallest
+        search(root->left, k);
+        --k;
+        if(k == 0){min = root->val; return;}  // when k hits zero, we've reached the target node
+        // we don't actually need to return anything, we just need to change the value of min
+        search(root->right, k); // now search the right side, in case there's nothing on the left
+        }
+    
+};
+
+
+Solution 01
+Using Vector.
+Here we’ll do inorder traversal, which is (left subtree → root → right subtree).
+We’ll store the values from the left side in our vector, which will be in increasing order.
+Finally, we’ll return (k-1) element from our vector, as it’s in increasing order so it will be kth smallest element.
+Time complexity: O(n), as we’re traversing the whole tree once.
+
+//Solution 01:
+class Solution {
+public:
+    vector<int> a;
+    int kthSmallest(TreeNode* root, int k) {
+        inorder(root);
+        int ans = a[k-1];
+        return ans;
+    }
+    void inorder(TreeNode* root){
+        if(!root) return;
+        inorder(root->left);
+        a.push_back(root->val);
+        inorder(root->right);
+    }
+};
