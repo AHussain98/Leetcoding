@@ -30,7 +30,7 @@ public:
     TreeNode* right = lowestCommonAncestor(root->right,p,q); // run again for the right node
 
     // now for the last part to be worked out
-    if(left && right){return root;} // the node where both left and right return valid is the lca, this is where both subtrees contain p and q
+    if(left && right){return root;} // the node where both left and right return valid is the lca, this is the node where left and right are p and q, so pass a pointer to this node up the chain
     if(left){return left;} // otherwise return the left node, which contains both p and q
     return right; // otherwise return right which must be the subtree that contains p and q
 
