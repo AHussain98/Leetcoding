@@ -1,0 +1,72 @@
+Given the root of a binary tree, imagine yourself standing on the right side of it, return the values of the nodes you can see ordered from top to bottom.
+
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    vector<int> rightSideView(TreeNode* root) {
+        // we need a vector to store the rhs nodes
+        // pass this into the helper function
+        vector<int> nodes;
+        
+        RHShelper(nodes, root, 0);
+        return nodes;
+    }
+
+// we need to include a level count, as we can't have the left pointer nodes adding their vals when the RHShelper function is executed on the way back up
+// lets check that the level is the same as the size of the nodes vector, as each level can only increase the level by 1, which only happens on the way down
+
+    void RHShelper(vector<int>& nodes, TreeNode* root, int& level){
+        if(root == nullptr){
+            return;
+        }
+        if(level == nodes.size()) {  // only add nodes the first time we're coming 
+        nodes.push_back(root->val); }
+
+
+        RHShelper(nodes, root->right, level + 1);  // start with the rhs
+        RHShelper(nodes, root->left, level + 1); // won't make any change if the above value has already added for the level
+    }
+};
+
+
+BFS (level-order traversal) is a good fit to this problem: just add the last node in each level to the result.
+
+class Solution {
+public:
+    vector<int> rightSideView(TreeNode* root) {
+        if (!root) {
+            return {};
+        }
+        vector<int> view;
+        queue<TreeNode*> todo;
+        todo.push(root);
+        while (!todo.empty()) {
+            int n = todo.size();
+            for (int i = 0; i < n; i++) {
+                TreeNode* node = todo.front();
+                todo.pop();
+                if (i == n - 1) {
+                    view.push_back(node -> val);
+                }
+                if (node -> left) {
+                    todo.push(node -> left);
+                }
+                if (node -> right) {
+                    todo.push(node -> right);
+                }
+            }
+        }
+        return view;
+    }
+};
